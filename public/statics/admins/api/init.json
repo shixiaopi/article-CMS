@@ -1,0 +1,51 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "welcome"
+  },
+  "logoInfo": {
+    "title": "皮皮虾管理后台",
+    "image": "/statics/admins/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "管理员",
+          "href": "admin",
+          "icon": "fa fa-group",
+          "target": "_self"
+        },
+        {
+          "title": "分类管理",
+          "href": "cate",
+          "icon": "fa fa-navicon",
+          "target": "_self"
+        },
+        {
+          "title": "标签管理",
+          "href": "tag",
+          "icon": "fa fa-tags",
+          "target": "_self"
+        },
+        {
+          "title": "文章管理",
+          "href": "article",
+          "icon": "fa fa-file-text-o",
+          "target": "_self"
+        },
+        {
+          "title": "系统设置",
+          "href": "system",
+          "icon": "fa fa-cogs",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}
