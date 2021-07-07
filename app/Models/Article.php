@@ -15,8 +15,11 @@ class Article extends Model
         'user_id',
         'status',
         'content',
-        'show'
+        'show',
+        'created_at'
     ];
+
+    public $timestamps = false;
 
     public function cate(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

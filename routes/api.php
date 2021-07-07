@@ -14,6 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('reptile', [\App\Http\Controllers\ReptileController::class, 'boot'])->name('reptile');
+Route::get('demo', [\App\Http\Controllers\ReptileController::class, 'demo'])->name('demo');

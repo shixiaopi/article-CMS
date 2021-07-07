@@ -126,12 +126,12 @@ class ArticleController extends Controller
     /**
      * 创建数据
      * @param $data ['title','cate_id','content','user','tag','status']
+     * @param bool $reptile 是否为爬虫
      * @return bool
      */
-    protected function storeFormat($data): bool
+    protected function storeFormat($data, bool $reptile = false): bool
     {
-        $cate = Cate::find($data['cate_id']);
-        if(empty($cate)) abort(404,'分类不存在');
+        $cate = $this->verifyCate($data['cate_id'], $reptile);
 
         if($data['user']){
             $userModel = new User();
@@ -142,18 +142,51 @@ class ArticleController extends Controller
             $data['user'] = $user->id;
         }
 
-        $result = Article::create([
+        $new_data = [
             'title' => $data['title'],
             'cate_id' => $cate->id,
             'user_id' => $data['user'],
             'status' => isset($data['status']) ? 1 : 0,
-            'content' => $data['content']
-        ]);
+            'content' => $data['content'],
+            'created_at' => now()->format('Y-m-d H:i:s')
+        ];
+        if(isset($data['created_at'])){
+            $new_data['created_at'] = $data['created_at'];
+        }
+
+        $result = Article::create($new_data);
 
         if($data['tag']) {
             $this->updateTags($result->id, $data['tag']);
         }
+
         return true;
+    }
+
+    /**
+     * 验证分类，如果分类不存在同时是爬虫状态就创建分类，否则抛出错误
+     * @param string|integer $name 分类名称或id
+     * @param bool $reptile 是否爬虫 true是
+     * @return mixed
+     */
+    protected function verifyCate($name, $reptile)
+    {
+        $cate =  Cache::get(ConstName::CATE_CACHE_NAME,function(){
+            Cate::orderBy('order','asc')->get();
+        });
+        if(is_numeric($name)){
+            $result = $cate->firstWhere('id',$name);
+        }else{
+            $result = $cate->firstWhere('name',$name);
+        }
+
+        if(empty($result) && $reptile == false){
+            abort(404,'分类不存在');
+        }
+        if(empty($result) && is_string($name)){
+            return Cate::create(['name'=>$name]);
+        }
+        return $result;
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Tools\ConstName;
 use App\Http\Transformers\CateTransform;
+use App\Models\Article;
 use App\Models\Cate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -78,12 +79,14 @@ class CateController extends Controller
 
     public function destroy(Cate $cate): \Illuminate\Http\JsonResponse
     {
+
+        Article::where('cate_id',$cate->id)->delete();
         $cate->delete();
         $this->setCache();
         return $this->msg();
     }
 
-    private function setCache()
+    public function setCache()
     {
         $cate = Cate::orderBy('order','asc')->get(['id','name','code','order','parentId']);
         Cache::forever(ConstName::CATE_CACHE_NAME, $cate);

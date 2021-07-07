@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.model-menus-list{
+    @apply bg-white text-gray-700 hidden;
+}
+.model-menus-list li{
+    @apply list-none pl-3 leading-8 border-b border-solid border-gray-300;
+}
+
+.card{
+    @apply w-full md:w-cart-width p-4 border border-solid border-gray-300 shadow-md mb-5 bg-white;
+}
+
+.nav-list{
+    @apply p-3 leading-8 text-gray-500;
+}
+
+.nav-list li{
+    @apply list-none truncate;
+}

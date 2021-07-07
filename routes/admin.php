@@ -42,7 +42,6 @@ Route::prefix('manage')->group(function(){
         Route::post('tag/update', [TagController::class, 'update'])->name('tag.update');
         Route::delete('tag/{tag}/delete', [TagController::class, 'destroy'])->name('tag.delete');
 
-        Route::post('upload',[\App\Http\Tools\UploadFile::class,'upload'])->name('upload');
 
         Route::get('article', [ArticleController::class, 'index'])->name('article');
         Route::get('article/list', [ArticleController::class, 'getList'])->name('article.list');
