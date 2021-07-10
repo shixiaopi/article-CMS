@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Cache;
 
 class ReptileController extends ArticleController
 {
+    /**
+     * 采集接口
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function boot(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
@@ -25,10 +30,7 @@ class ReptileController extends ArticleController
 
     public function demo()
     {
-        $cate =  Cache::get(ConstName::CATE_CACHE_NAME,function(){
-            Cate::orderBy('order','asc')->get();
-        });
-        $result = $cate->firstWhere('id','11');
-        dd($result);
+        $d = now()->addWeeks(-1)->toDateString();
+        dd($d);
     }
 }

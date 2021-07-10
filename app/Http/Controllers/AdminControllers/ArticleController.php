@@ -50,6 +50,7 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
+        //TODO:: 文本编辑器显示源码
         $cate = Cate::orderBy('order','asc')->get();
         return view(self::THEME_PREFIX . '.article.show',compact(['article','cate']));
     }
@@ -79,13 +80,24 @@ class ArticleController extends Controller
         return $this->msg();
     }
 
-    public function destroy(Article $article)
+    public function destroy(Article $article): \Illuminate\Http\JsonResponse
     {
         TagArticle::where('article_id',$article->id)->delete();
         if ( empty( Article::where('id','!=',$article->id)->where('user_id',$article->user_id)->first() ) ){
             User::where('id',$article->user_id)->delete();
         }
         $article->delete();
+        return $this->msg();
+    }
+
+    public function delete(Request $request)
+    {
+        $request->validate([
+            'data' => 'required'
+        ]);
+        $article_id = array_column($request->get('data'), 'id');
+        TagArticle::whereIn('article_id',$article_id)->delete();
+        Article::whereIn('id',$article_id)->delete();
         return $this->msg();
     }
 

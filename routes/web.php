@@ -14,5 +14,6 @@ use App\Http\Controllers\IndexController;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('/');
-Route::get('/show', [IndexController::class, 'show'])->name('show');
+Route::get('cate/{cate}', [IndexController::class, 'getList'])->name('cate');
+Route::get('article/{article}.html', [IndexController::class, 'show'])->name('show');
 Route::get('/demo', [IndexController::class, 'demo'])->name('demo');

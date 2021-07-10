@@ -15,4 +15,9 @@ class Cate extends Model
         'order',
         'parentId'
     ];
+
+    public function article(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Article::class, 'cate_id', 'id');
+    }
 }

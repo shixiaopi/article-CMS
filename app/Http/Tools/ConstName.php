@@ -14,4 +14,7 @@ class ConstName
 
     //后台首页数据统计
     const ADMIN_INFO_COUNT = 'ADMIN_INFO_COUNT';
+
+    //一周最多访问
+    const WEEK_HOST_ARTICLE = 'WEEK_HOST_ARTICLE';
 }

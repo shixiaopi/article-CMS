@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章首页</title>
+    <title>@if(isset($article->title) && $article->title != '') {{ $article->title }} -@endif @if(isset($cate->name)){{ $cate->name }} -@endif{{ $website->name }}</title>
+    <meta name="description" content="{{ $website->description }}" />
+    <meta name="keywords" content="{{ $website->keywords }}" />
+    @if(isset($article->title) && $article->title != '')
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="{{ $article->created_at }}" />
+    <meta property="article:author" content="{{ $article->user_id  }}" />
+    <meta property="article:published_first" content="MinP.Me, https://www.minp.me/archives/15.html" />
+    <meta property="og:title" content="WordPress自动获取文章第一张图片作为缩略图支持外链图片 - MinP.Me" />
+    <meta property="og:url" content="https://www.minp.me/archives/15.html" />
+    @endif
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
 {{--    <link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/772f9d61e0b047c7eaad77347e29d4c23e94b63e/css/navy.css'/>--}}
     @yield('style')
@@ -12,14 +24,13 @@
 <header class="bg-gray-700 h-20">
     <div class="container m-auto w-11/12 flex justify-between md:justify-start text-white py-6">
         <div class="text-2xl w-full md:w-1/12 mr-5 text-center md:text-left">
-            这是标题
+            {{ $website->name }}
         </div>
         <div class="pt-1 hidden md:block">
             <a href="" class="p-2">首页</a>
-            <a href="" class="p-2">php与mysql</a>
-            <a href="" class="p-2">服务器交流</a>
-            <a href="" class="p-2">前端技术</a>
-            <a href="" class="p-2">文章推荐</a>
+            @foreach($cate as $item)
+            <a href="{{ $website->url }}/cate/{{ $item->code }}" class="p-2">{{ $item->name }}</a>
+            @endforeach
         </div>
         <div class="md:hidden pt-1 w-7 order-first model-menus">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,10 +41,9 @@
 </header>
 <div class="model-menus-list">
     <li><a href="">首页</a></li>
-    <li><a href="">php与mysql</a></li>
-    <li><a href="">服务器交流</a></li>
-    <li><a href="">前端技术</a></li>
-    <li><a href="">文章推荐</a></li>
+    @foreach($cate as $item)
+        <li><a href="{{ $website->url }}/cate/{{ $item->code }}" class="p-2">{{ $item->name }}</a></li>
+    @endforeach
 </div>
 <main class="w-11/12 m-auto mt-4 flex">
     <div class="w-full md:w-3/4">
@@ -64,19 +74,12 @@
 
         <div class="w-full bg-white mt-4 shadow-md">
             <div class="pt-3 pl-3 pb-3 border-b border-solid border-gray-300">
-                <h4>最近更新</h4>
+                <h4>本周最热</h4>
             </div>
             <div class="nav-list">
-                <li ><a href="">uTools插件IPinfo更新，使用更便捷</a></li>
-                <li ><a href="">使用Docker搭建poste，自建邮件服务器</a></li>
-                <li ><a href="">使用acme.sh申请ZeroSSL泛域名证书，Let’s Encrypt替代品</a></li>
-                <li ><a href="">国行小米9 SE刷欧版MIUI 12.5踩坑记录</a></li>
-                <li ><a href="">【转载】聊聊 DNS 的那些小知识</a></li>
-                <li ><a href="">Debian 10安装Proxmox VE（PVE）虚拟化管理软件</a></li>
-                <li ><a href="">开源好用的Windows录屏软件Captura</a></li>
-                <li ><a href="">使用WebP Server在不改变URL的情况下将网站图像转换为WebP</a></li>
-                <li ><a href="">浅析HTTP 2.0 Server Push，查看是否支持HTTP/2的方法</a></li>
-                <li ><a href="">Windows Terminal + Alpine Linux + ZSH打造自己的高颜值终端</a></li>
+                @foreach($week_host as $item)
+                <li ><a href="{{ $website->url }}/article/{{ $item->id }}.html" target="_blank" title="{{ $item->title }}" rel="{{ $item->title }}">{{ $item->title }}</a></li>
+                @endforeach
             </div>
         </div>
 
@@ -85,7 +88,7 @@
 </main>
 
 <footer class="bg-gray-700 pt-10 pb-10 text-center text-gray-100">
-    Copyright © 2013 - 2019.蜀ICP备14021561号 | 川公网安备 51010602000097号 | 站点地图
+    Copyright © 2013 - {{ now()->format('Y') }} {{ $website->name }} | <a href="">站点地图</a>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>

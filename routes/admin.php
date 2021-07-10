@@ -50,6 +50,7 @@ Route::prefix('manage')->group(function(){
         Route::get('article/{article}/show', [ArticleController::class, 'show'])->name('article.show');
         Route::post('article/update', [ArticleController::class, 'update'])->name('article.update');
         Route::delete('article/{article}/delete', [ArticleController::class, 'destroy'])->name('article.destroy');
+        Route::delete('article/delete-all', [ArticleController::class, 'delete'])->name('article.delete');
 
         Route::get('system', [SystemController::class, 'index'])->name('system');
         Route::post('system', [SystemController::class, 'update'])->name('system.update');

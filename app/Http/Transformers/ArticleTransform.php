@@ -22,7 +22,7 @@ class ArticleTransform extends BaseTransform
                 'tags' => $item->tagFormat(),
                 'show' => $item->show,
                 'status' => $item->status,
-                'created_at' => $item->created_at->format('Y-m-d H:m:s')
+                'created_at' => $item->created_at
             ];
         })->all();
     }

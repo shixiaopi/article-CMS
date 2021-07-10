@@ -39,6 +39,7 @@
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-danger layui-btn-sm data-add-btn" lay-event="delete"> 删除 </button>
             </div>
         </script>
 
@@ -135,7 +136,20 @@
                 } else if (obj.event === 'delete') {  // 监听删除操作
                     var checkStatus = table.checkStatus('currentTableId')
                         , data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                    // layer.alert(JSON.stringify(data));
+                    $.ajax({
+                        'method': 'delete',
+                        'url': 'article/delete-all',
+                        'data': {data:data},
+                    })
+                    .done(function(d){
+                        layer.msg('删除成功',function(){
+                            window.location.reload();
+                        });
+                    })
+                    .fail(function (e){
+                        layer.msg(errorMsgFormat(e), {icon: 9});
+                    });
                 }
             });
 
